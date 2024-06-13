@@ -8,6 +8,7 @@ import axios from 'axios';
 export const Home = () => {
   const [newProfileName, setNewProfileName] = useState('');
   const [profileToUpdate, setProfileToUpdate] = useState<number>();
+
   const realm = useRealm();
 
   const usersDb = useQuery(User);
@@ -34,30 +35,45 @@ export const Home = () => {
     });
   };
 
+  const deleteProfile = (id: number) => {
+    const toDelete = realm.objects(User).filtered(`id == ${id}`);
+    realm.write(() => {
+      realm.delete(toDelete);
+    });
+  };
+
   return (
     <View>
       <Button title="Adicionar usuarios" onPress={createUsers} />
-      <Button title="Remover todos" onPress={createUsers} />
+      {/* <Button title="Remover todos" onPress={createUsers} /> */}
       <FlatList
         data={usersDb}
         keyExtractor={item => String(item.id)}
         renderItem={({item}) => (
-          <Pressable
-            onPress={() => {
-              setProfileToUpdate(item.id);
-            }}>
-            <Text>{item.name}</Text>
-          </Pressable>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Pressable
+              onPress={() => {
+                setProfileToUpdate(item.id);
+              }}>
+              <Text>{item.name}</Text>
+            </Pressable>
+            <Button
+              title="Remover usuário"
+              onPress={() => deleteProfile(item.id)}
+            />
+          </View>
         )}
       />
       {profileToUpdate && (
-        <TextInput
-          onChangeText={setNewProfileName}
-          value={newProfileName}
-          placeholder="Adicione um novo nome..."
-        />
+        <>
+          <TextInput
+            onChangeText={setNewProfileName}
+            value={newProfileName}
+            placeholder="Adicione um novo nome..."
+          />
+          <Button title="Atualizar usuário" onPress={updateUser} />
+        </>
       )}
-      <Button title="Atualizar usuário" onPress={updateUser} />
     </View>
   );
 };
