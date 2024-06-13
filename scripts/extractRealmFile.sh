@@ -1,6 +1,6 @@
 #!/bin/bash
 ADB_PATH="${HOME}/Android/Sdk/platform-tools"
-PACKAGE_NAME="com.agrohub"
+PACKAGE_NAME="com.learnlibs"
 DB_NAME="default.realm"
 DESTINATION_PATH="${HOME}/Downloads/${DB_NAME}"
 NOT_PRESENT="List of devices attached"
