@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@realm/react": "^0.7.0",
+    "axios": "^1.7.2",
     "react": "18.2.0",
     "react-native": "0.74.2",
     "realm": "^12.9.0"

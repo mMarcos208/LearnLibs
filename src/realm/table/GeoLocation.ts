@@ -1,14 +1,14 @@
 import Realm, {ObjectSchema} from 'realm';
 
 export class GeoLocation extends Realm.Object<GeoLocation> {
-  lat!: number;
-  lng!: number;
+  lat!: string;
+  lng!: string;
 
   static schema: ObjectSchema = {
     name: 'GeoLocation',
     properties: {
-      lat: 'float',
-      lng: 'float',
+      lat: 'string',
+      lng: 'string',
     },
   };
 }

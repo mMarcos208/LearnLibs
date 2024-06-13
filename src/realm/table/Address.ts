@@ -2,7 +2,7 @@ import Realm, {ObjectSchema} from 'realm';
 import {GeoLocation} from './GeoLocation';
 
 export class Address extends Realm.Object<Address> {
-  street!: number;
+  street!: string;
   suite!: string;
   city!: string;
   zipcode!: string;
@@ -10,7 +10,7 @@ export class Address extends Realm.Object<Address> {
   static schema: ObjectSchema = {
     name: 'Address',
     properties: {
-      street: 'int',
+      street: 'string',
       suite: 'string',
       city: 'string',
       zipcode: 'string',
