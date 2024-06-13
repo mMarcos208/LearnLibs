@@ -6,6 +6,7 @@ export class User extends Realm.Object<User> {
   id!: number;
   name!: string;
   username!: string;
+  fullName?: string;
   email!: string;
   address!: Address;
   phone!: string;
@@ -18,6 +19,7 @@ export class User extends Realm.Object<User> {
       id: 'int',
       name: 'string',
       username: 'string',
+      fullName: 'string?',
       email: 'string',
       address: 'Address',
       phone: 'string',

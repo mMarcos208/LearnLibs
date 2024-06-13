@@ -47,10 +47,16 @@ export const Home = () => {
     });
   };
 
+  const deleteAll = () => {
+    realm.write(() => {
+      realm.deleteAll();
+    });
+  };
+
   return (
     <View>
       <Button title="Adicionar usuarios" onPress={createUsers} />
-      {/* <Button title="Remover todos" onPress={createUsers} /> */}
+      <Button title="Remover todos" onPress={deleteAll} />
       <FlatList
         data={usersDb}
         keyExtractor={item => String(item.id)}
@@ -60,7 +66,7 @@ export const Home = () => {
               onPress={() => {
                 setProfileToUpdate(item.id);
               }}>
-              <Text>{item.name}</Text>
+              <Text>{item.fullName}</Text>
             </Pressable>
             <Button
               title="Remover usuário"

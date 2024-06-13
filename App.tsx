@@ -4,6 +4,7 @@ import {RealmProvider} from '@realm/react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {User, Address, Company, GeoLocation} from './src/realm/table';
 import {Home} from './src/components/Home';
+import {onMigration} from './src/realm/migatrions';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -16,7 +17,8 @@ function App(): React.JSX.Element {
     <SafeAreaView style={backgroundStyle}>
       <RealmProvider
         schema={[User, GeoLocation, Company, Address]}
-        schemaVersion={2}>
+        onMigration={onMigration}
+        schemaVersion={4}>
         <StatusBar
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={backgroundStyle.backgroundColor}
