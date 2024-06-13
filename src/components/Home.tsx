@@ -1,19 +1,20 @@
 import React from 'react';
-import {Button, View} from 'react-native';
+import {Button, FlatList, Text, View} from 'react-native';
 
-import {useRealm} from '@realm/react';
+import {useQuery, useRealm} from '@realm/react';
 import {User} from '../realm/table';
 import axios from 'axios';
 
 export const Home = () => {
   const realm = useRealm();
 
+  const usersDb = useQuery(User);
+
   const addUsers = async () => {
     try {
       const users = await axios.get<User[]>(
         'https://jsonplaceholder.typicode.com/users',
       );
-      console.log('users', users.data);
       realm.write(() => {
         users.data.forEach(element => {
           realm.create(User, element);
@@ -27,6 +28,23 @@ export const Home = () => {
   return (
     <View>
       <Button title="Adicionar usuarios" onPress={addUsers} />
+      <FlatList
+        data={usersDb}
+        keyExtractor={item => String(item.id)}
+        renderItem={({item}) => (
+          <>
+            <Text>{item.name}</Text>
+          </>
+        )}
+      />
     </View>
   );
 };
+/**
+ * Deletar tudo
+ * Deletar por id
+ * Buscar por id
+ * Atualizar
+ * Buscar por formas diferentes
+ * Mudanças de propriedades dos nomes da tabela
+ */
