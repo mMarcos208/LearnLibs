@@ -29,14 +29,19 @@ export const Home = () => {
   };
 
   const updateUser = () => {
-    const toUpdate = realm.objects(User).filtered(`id == ${profileToUpdate}`);
+    const toUpdate = realm.objectForPrimaryKey<User>(
+      User,
+      `id == ${profileToUpdate}`,
+    );
     realm.write(() => {
-      toUpdate[0].name = newProfileName;
+      if (toUpdate) {
+        toUpdate.name = newProfileName;
+      }
     });
   };
 
   const deleteProfile = (id: number) => {
-    const toDelete = realm.objects(User).filtered(`id == ${id}`);
+    const toDelete = realm.objectForPrimaryKey<User>(User, `id == ${id}`);
     realm.write(() => {
       realm.delete(toDelete);
     });
