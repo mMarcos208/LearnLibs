@@ -5,8 +5,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useQuery, useRealm} from '@realm/react';
 import {User} from '../realm/table';
 import axios from 'axios';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-export const Home = () => {
+import {RootStackParamList} from '../../App';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+export const Home = ({navigation}: Props) => {
   const [newProfileName, setNewProfileName] = useState('');
   const [profileToUpdate, setProfileToUpdate] = useState<number | null>(null);
 
@@ -57,7 +62,11 @@ export const Home = () => {
 
   return (
     <View>
-      <Pressable onPress={() => console.log('teste')}></Pressable>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('ReactQuery', {id: 10})}
+      />
+      <Pressable onPress={() => console.log('teste')} />
       <Button title="Adicionar usuarios" onPress={createUsers} />
       <Button title="Remover todos" onPress={deleteAll} />
       <FlatList
