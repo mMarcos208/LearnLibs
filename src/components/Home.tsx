@@ -69,7 +69,7 @@ export const Home = () => {
               <Text>{item.name}</Text>
             </Pressable>
             <Pressable onPress={() => deleteProfile(item.id)}>
-              <MaterialCommunityIcons name="close" size={30} color="#000" />
+              <MaterialCommunityIcons name="airplane" size={30} color="#000" />
             </Pressable>
           </View>
         )}
