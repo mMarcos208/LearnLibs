@@ -93,6 +93,10 @@ export const Home = ({navigation}: Props) => {
           <Button title="Atualizar usuário" onPress={updateUser} />
         </>
       )}
+      <Button
+        onPress={() => navigation.navigate('ReactHookForm')}
+        title="Acessar React hook form"
+      />
     </View>
   );
 };

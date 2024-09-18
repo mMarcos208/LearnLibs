@@ -5,11 +5,12 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {User, Address, Company, GeoLocation} from './src/realm/table';
 import {onMigration} from './src/realm/migatrions';
 import {QueryClientProvider, QueryClient} from '@tanstack/react-query';
-import {DevToolsBubble} from 'react-native-react-query-devtools';
+
 import {ReactQuery} from './src/components/ReactQuery';
 import {NavigationContainer} from '@react-navigation/native';
 import {Home} from './src/components/Home';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {ReactHookForm} from './src/components/ReactHookForm';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +26,7 @@ const queryClient = new QueryClient({
 export type RootStackParamList = {
   Home: undefined;
   ReactQuery: {id: number};
+  ReactHookForm: undefined;
 };
 
 function App(): React.JSX.Element {
@@ -40,7 +42,7 @@ function App(): React.JSX.Element {
     <RealmProvider
       schema={[User, GeoLocation, Company, Address]}
       onMigration={onMigration}
-      schemaVersion={4}>
+      schemaVersion={5}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
@@ -50,8 +52,8 @@ function App(): React.JSX.Element {
           <Stack.Navigator initialRouteName="Home">
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="ReactQuery" component={ReactQuery} />
+            <Stack.Screen name="ReactHookForm" component={ReactHookForm} />
           </Stack.Navigator>
-          <DevToolsBubble />
         </NavigationContainer>
       </QueryClientProvider>
     </RealmProvider>

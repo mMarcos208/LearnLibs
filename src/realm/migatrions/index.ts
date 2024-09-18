@@ -13,4 +13,16 @@ export const onMigration = (oldRealm: Realm, newRealm: Realm) => {
       newObject.fullName = `${oldObject.name} ${oldObject.username}`;
     }
   }
+  if (oldRealm.schemaVersion === 4) {
+    const oldObjects: Realm.Results<User> = oldRealm.objects(User);
+    const newObjects: Realm.Results<User> = newRealm.objects(User);
+    // loop through all objects and set the fullName property in the
+    // new schema
+    for (const objectIndex in oldObjects) {
+      const newObject = newObjects[objectIndex];
+      if (objectIndex === '4') {
+        newObject.website = 'www.agrohub.com';
+      }
+    }
+  }
 };
