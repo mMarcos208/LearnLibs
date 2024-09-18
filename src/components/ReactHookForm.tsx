@@ -1,8 +1,9 @@
-import {Text, View, TextInput, Button} from 'react-native';
-import {useForm, Controller} from 'react-hook-form';
+import {View, Button} from 'react-native';
+import {useForm} from 'react-hook-form';
 import React from 'react';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import {ControlledInput} from './ControlledInput';
 
 const schema = yup
   .object({
@@ -18,12 +19,8 @@ const schema = yup
 type SchemaValues = yup.InferType<typeof schema>;
 
 export const ReactHookForm = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: {errors},
-  } = useForm({
-    defaultValues: schema.getDefault(),
+  const {control, handleSubmit} = useForm({
+    defaultValues: schema.getDefault() as SchemaValues,
     resolver: yupResolver(schema),
   });
 
@@ -31,33 +28,17 @@ export const ReactHookForm = () => {
 
   return (
     <View>
-      <Controller
-        control={control}
-        render={({field: {onChange, value}}) => {
-          return (
-            <TextInput
-              placeholder="First name"
-              onChangeText={onChange}
-              value={value}
-            />
-          );
-        }}
+      <ControlledInput
         name="firstName"
-      />
-      {errors.firstName && <Text>{errors.firstName.message}</Text>}
-
-      <Controller
         control={control}
-        render={({field: {onChange, value}}) => (
-          <TextInput
-            placeholder="Last name"
-            onChangeText={onChange}
-            value={value ?? undefined}
-          />
-        )}
-        name="lastName"
+        placeholder="Primeiro nome"
       />
-      {errors.lastName && <Text>{errors.lastName.message}</Text>}
+
+      <ControlledInput
+        name="lastName"
+        control={control}
+        placeholder="Último nome"
+      />
 
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
