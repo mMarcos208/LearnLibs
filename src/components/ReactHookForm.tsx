@@ -1,11 +1,21 @@
 import {Text, View, TextInput, Button} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import React from 'react';
+import {yupResolver} from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
-type Inputs = {
-  firstName: string;
-  lastName: string;
-};
+const schema = yup
+  .object({
+    firstName: yup.string().required('Campo obrigatório').default(''),
+    lastName: yup
+      .string()
+      .max(10, 'Limite de 10 carcteres atingido')
+      .notRequired()
+      .default(''),
+  })
+  .required();
+
+type SchemaValues = yup.InferType<typeof schema>;
 
 export const ReactHookForm = () => {
   const {
@@ -13,21 +23,16 @@ export const ReactHookForm = () => {
     handleSubmit,
     formState: {errors},
   } = useForm({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-    },
+    defaultValues: schema.getDefault(),
+    resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: Inputs) => console.log(data);
+  const onSubmit = (data: SchemaValues) => console.log(data);
 
   return (
     <View>
       <Controller
         control={control}
-        rules={{
-          required: true,
-        }}
         render={({field: {onChange, value}}) => {
           return (
             <TextInput
@@ -39,22 +44,20 @@ export const ReactHookForm = () => {
         }}
         name="firstName"
       />
-      {errors.firstName && <Text>This is required.</Text>}
+      {errors.firstName && <Text>{errors.firstName.message}</Text>}
 
       <Controller
         control={control}
-        rules={{
-          maxLength: 100,
-        }}
         render={({field: {onChange, value}}) => (
           <TextInput
             placeholder="Last name"
             onChangeText={onChange}
-            value={value}
+            value={value ?? undefined}
           />
         )}
         name="lastName"
       />
+      {errors.lastName && <Text>{errors.lastName.message}</Text>}
 
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
